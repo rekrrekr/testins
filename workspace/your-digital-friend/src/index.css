@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ring: rgba(139, 92, 246, 0.35);
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/50 backdrop-blur-md border border-white/60 dark:border-white/10 shadow-xl;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 text-white px-4 py-2 font-medium shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-4 focus:ring-brand-400/30 active:bg-brand-800;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-4 py-2 font-medium hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-300/30;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/40;
+  }
+}

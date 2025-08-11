@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 10% 6%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 8%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 8%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 220 85% 60%;
+  --primary-foreground: 220 100% 98%;
+  --secondary: 260 45% 22%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 6% 14%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 260 80% 60%;
+  --accent-foreground: 260 100% 98%;
+  --destructive: 0 62% 45%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 6% 20%;
+  --input: 240 6% 20%;
+  --ring: 220 85% 60%;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+}
+
+.light {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
+  --primary: 222 81% 54%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 260 45% 96%;
+  --secondary-foreground: 240 10% 4%;
+  --muted: 240 6% 96%;
+  --muted-foreground: 240 5% 35%;
+  --accent: 260 80% 52%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 42%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 6% 90%;
+  --input: 240 6% 90%;
+  --ring: 222 81% 54%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+html, body, #__next { height: 100%; }
+
+body {
+  @apply bg-background text-foreground antialiased;
+}
+
+.glass-surface {
+  @apply bg-background/60 backdrop-blur-md border border-white/10 shadow-insetSoft;
+}
+
+.bloom-hover {
+  transition: filter 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+.bloom-hover:hover {
+  filter: drop-shadow(0 6px 18px rgba(80,120,255,0.25));
+}
+
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.4);
+}

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatarUrl String?
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  personas  Persona[]
+  chats     Chat[]
+  favorites Favorite[]
+  purchases Purchase[]
+  auditLogs AuditLog[] @relation("UserAuditLogs")
+}
+
+model Persona {
+  id          String   @id @default(uuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  slug        String   @unique
+  name        String
+  tagline     String
+  description String
+  tags        String[]
+  avatarUrl   String?
+  stats       Json?
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  chats       Chat[]
+  favorites   Favorite[]
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  personaId String
+  persona   Persona  @relation(fields: [personaId], references: [id])
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  personaId String
+  persona   Persona  @relation(fields: [personaId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, personaId])
+}
+
+model Purchase {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  kind      String
+  amount    Int
+  currency  String   @default("USD")
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String
+  actor     User     @relation("UserAuditLogs", fields: [actorId], references: [id])
+  action    String
+  meta      Json
+  createdAt DateTime @default(now())
+}

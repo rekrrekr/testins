@@ -1,4 +1,5 @@
 import { prisma } from '@/server/services/prisma'
+import type { Prisma } from '@prisma/client'
 
 const samplePersonas = [
   {
@@ -33,9 +34,16 @@ const samplePersonas = [
 
 export async function getPersonas({ take = 20, search }: { take?: number; search?: string }) {
   try {
-    const where = search
-      ? { isPublic: true, OR: [{ name: { contains: search, mode: 'insensitive' } }, { tags: { has: search } }] }
-      : { isPublic: true }
+    let where: Prisma.PersonaWhereInput = { isPublic: true }
+    if (search) {
+      where = {
+        isPublic: true,
+        OR: [
+          { name: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+          { tags: { has: search } },
+        ],
+      }
+    }
     return await prisma.persona.findMany({ where, take, orderBy: { createdAt: 'desc' } })
   } catch {
     const filtered = search

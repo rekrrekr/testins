@@ -31,7 +31,7 @@ export default {
       },
       keyframes: {
         sweep: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-        pulseGlow: { '0%,100%': { opacity: 0.15 }, '50%': { opacity: 0.35 } },
+        pulseGlow: { '0%,100%': { opacity: '0.15' }, '50%': { opacity: '0.35' } },
       },
       animation: {
         sweep: 'sweep 240ms ease',

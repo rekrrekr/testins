@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius-xs: 6px;
+  --radius-md: 12px;
+  --radius-lg: 22px;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-ink text-white antialiased;
+  background-image: radial-gradient(60% 40% at 30% 10%, rgba(0, 240, 255, 0.06), transparent),
+    radial-gradient(40% 30% at 80% 0%, rgba(255, 31, 184, 0.05), transparent);
+}
+
+/* Glass header hairline */
+.hairline {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--tw-bg-opacity, 1), var(--tw-bg-opacity, 1)) padding-box,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04)) border-box;
+}
+
+/* Hover bloom */
+.bloom-hover {
+  transition: filter 180ms ease, transform 180ms ease;
+}
+.bloom-hover:hover {
+  filter: drop-shadow(0 10px 18px rgba(0, 240, 255, 0.16))
+    drop-shadow(0 6px 12px rgba(255, 31, 184, 0.12));
+  transform: translateZ(0) scale(1.01);
+  will-change: filter, transform;
+}
+
+/* Swoosh underline */
+.swoosh-underline {
+  position: relative;
+}
+.swoosh-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 30%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #ff1fb8);
+  opacity: 0;
+  transform: translateX(-20%);
+}
+.swoosh-underline:hover::after,
+.swoosh-underline:focus-visible::after {
+  animation: swoosh 380ms ease-in-out;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

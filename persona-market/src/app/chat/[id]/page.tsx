@@ -1,12 +1,10 @@
 "use client"
 import { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 export default function ChatPage({ params }: { params: { id: string } }) {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([])
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
-  const searchParams = useSearchParams()
   const endRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])

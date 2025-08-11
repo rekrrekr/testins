@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/server/services/prisma'
+import { Prisma } from '@prisma/client'
 
 const createSchema = z.object({
   name: z.string().min(2),
@@ -14,11 +15,18 @@ const createSchema = z.object({
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const q = searchParams.get('q') || undefined
+  const q = searchParams.get('q')
   const take = Number(searchParams.get('take') ?? '20')
-  const where = q
-    ? { isPublic: true, OR: [{ name: { contains: q, mode: 'insensitive' } }, { tags: { has: q } }] }
-    : { isPublic: true }
+  let where: Prisma.PersonaWhereInput = { isPublic: true }
+  if (q) {
+    where = {
+      isPublic: true,
+      OR: [
+        { name: { contains: q, mode: Prisma.QueryMode.insensitive } },
+        { tags: { has: q } },
+      ],
+    }
+  }
   const personas = await prisma.persona.findMany({ where, take, orderBy: { createdAt: 'desc' } })
   return Response.json({ personas })
 }
